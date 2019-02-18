@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Gym</string>
+    <string name="app_name">UM GYM</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="nombre_y_apellido">Nombre y Apellido</string>
+    <string name="title_activity_create_usuer">CreateUsuerActivity</string>
+    <string name="nombre">Nombre</string>
+    <string name="dni">DNI</string>
+    <string name="email">Email</string>
+    <string name="apellido">Apellido</string>
+    <string name="horas_y_minutos">Horas y Minutos</string>
 </resources>
