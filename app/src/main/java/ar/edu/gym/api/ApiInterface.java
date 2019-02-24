@@ -31,25 +31,25 @@ public interface ApiInterface {
     @Headers(key)
     @POST("gym/api/personas/")
     //revisar las url a las q le pegas la httprequest
-    Call<Boolean> createUser(@Body Persona usuarios);
+    Call<Persona> createUser(@Body Persona usuarios);
 
     //actualizacion de usuario, mandar modelo con el id
     @Headers(key)
-    @PUT("gym/api/personas/{id}")
+    @PUT("gym/api/personas/")
     //revisar las url a las q le pegas la httprequest
-    Call<String> updateUser(@Body Persona usuarios);
+    Call<Persona> updateUser(@Body Persona usuarios);
 
     //Esta la utilizas para crear un usuario, neecesitas mandarle el modelo completo
     @Headers(key)
     @POST("gym/api/movimientos/")
     //revisar las url a las q le pegas la httprequest
-    Call<Boolean> createMovement(@Body Movimiento movimiento);
+    Call<Movimiento> createMovement(@Body Movimiento movimiento);
 
     //actualizacion de usuario, mandar modelo con el id
     @Headers(key)
     @PUT("gym/api/movimientos/{id}")
     //revisar las url a las q le pegas la httprequest
-    Call<String> updateMovement(@Path("id") String id);
+    Call<Movimiento> updateMovement(@Path("id") String id);
 
 }
 

@@ -32,7 +32,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private String stringUserId;
     private Persona persona;
 
-    private void initVariable(){
+    private void initVariable() {
         fabCargarusuario = (FloatingActionButton) findViewById(R.id.fab_cargar_usuario);
         edNombre = (EditText) findViewById(R.id.ed_nombre);
         edApellido = (EditText) findViewById(R.id.ed_apellido);
@@ -51,23 +51,18 @@ public class CreateUserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initVariable();
-
-
     }
-
 
     @Override
     protected void onResume() {
         super.onResume();
-        intentCreatePerson  = getIntent();
-        bundleDatosUser = intentCreatePerson .getExtras();
+        intentCreatePerson = getIntent();
+        bundleDatosUser = intentCreatePerson.getExtras();
 
-        if(bundleDatosUser != null) {
+        if (bundleDatosUser != null) {
             stringUserId = bundleDatosUser.getString("idUser");
             getUserForId(stringUserId);
         }
-
-
 
         fabCargarusuario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,15 +74,13 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private void cargarModelo() {
 
-
-        if(!Objects.isNull(persona)){
-            if(stringUserId != null && !stringUserId.equals("")){
+        if (!Objects.isNull(persona)) {
+            if (stringUserId != null && !stringUserId.equals("")) {
                 //si el formulario tiene datos actualiza un usuario
-                //consumeUpdateApiServices();
-                Toast.makeText(this, "Tenes que crear el update en la api... pancho!!", Toast.LENGTH_SHORT).show();
-            }else{
+                consumeUpdateApiServices(persona);
+            } else {
                 //si el formulario estaba vacio crea un usuario
-                persona =  new Persona(null,
+                persona = new Persona(null,
                         edNombre.getText().toString(),
                         edApellido.getText().toString(),
                         edEmail.getText().toString(),
@@ -108,7 +101,7 @@ public class CreateUserActivity extends AppCompatActivity {
         edDNI.setText(persona.getDni());
     }
 
-    private void vaciarFormulario(){
+    private void vaciarFormulario() {
         edNombre.setText("");
         edApellido.setText("");
         edEmail.setText("");
@@ -120,28 +113,35 @@ public class CreateUserActivity extends AppCompatActivity {
     private void consumeCreateApiServices() {
 
         ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
-        Call<Boolean> createUser;
+        Call<Persona> createUser;
         createUser = apiInterface.createUser(persona);
 
         try {
 
-            createUser.enqueue(new Callback<Boolean>() {
+            createUser.enqueue(new Callback<Persona>() {
                 @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.code() == 200){
-                        Toast.makeText(CreateUserActivity.this, "Usuario creado correctamente...", Toast.LENGTH_SHORT).show();
+                public void onResponse(Call<Persona> call, Response<Persona> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(CreateUserActivity.this,
+                                "Usuario creado correctamente...",
+                                Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
-                    if (response.code() == 404){
-                        Toast.makeText(CreateUserActivity.this, "No se pudo cargar el usuario. Email en uso. Intente nuevamente...", Toast.LENGTH_SHORT).show();
+                    if (response.code() == 404) {
+                        Toast.makeText(CreateUserActivity.this,
+                                "No se pudo cargar el usuario. " +
+                                        "Email en uso. Intente nuevamente...",
+                                Toast.LENGTH_SHORT).show();
                         vaciarFormulario();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
+                public void onFailure(Call<Persona> call, Throwable t) {
                     Log.d(TAG, "onFailure: " + t);
-                    Toast.makeText(CreateUserActivity.this, "Hubo un error jaja salu2", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateUserActivity.this,
+                            "Error",
+                            Toast.LENGTH_SHORT).show();
                     vaciarFormulario();
                 }
             });
@@ -151,25 +151,37 @@ public class CreateUserActivity extends AppCompatActivity {
         }
     }
 
-
     //Consume resource with Retrofit 2 creando
-    private void consumeUpdateApiServices() {
+    private void consumeUpdateApiServices(Persona personat1) {
+        Log.d(TAG, "consumeCreateApiServices persona: "+ personat1);
         ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
-        Call<String> updateUser;
-        updateUser = apiInterface.updateUser(persona);
+        Call<Persona> updateUser;
+        this.edNombre = (EditText) findViewById(R.id.ed_nombre);
+        this.edApellido = (EditText) findViewById(R.id.ed_apellido);
+        this.edEmail = (EditText) findViewById(R.id.ed_email);
+        this.edDNI = (EditText) findViewById(R.id.ed_dni);
+        personat1.setNombre(edNombre.getText().toString());
+        personat1.setApellido(edApellido.getText().toString());
+        personat1.setEmail(edEmail.getText().toString());
+        personat1.setDni(edDNI.getText().toString());
+        Log.d(TAG, "PersonaT1 "+ personat1);
+        updateUser = apiInterface.updateUser(personat1);
 
         try {
 
-            updateUser.enqueue(new Callback<String>() {
+            updateUser.enqueue(new Callback<Persona>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if(response.isSuccessful()){
-                        Toast.makeText(CreateUserActivity.this, "Usuario actualizado", Toast.LENGTH_SHORT).show();
+                public void onResponse(Call<Persona> call, Response<Persona> response) {
+                    Log.d(TAG, "Request: " + call + " Response: " + response);
+                    if (response.isSuccessful()) {
+                        Toast.makeText(CreateUserActivity.this,
+                                "Usuario actualizado",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Persona> call, Throwable t) {
                     Log.d(TAG, "onFailure: " + t);
                 }
             });
@@ -178,8 +190,6 @@ public class CreateUserActivity extends AppCompatActivity {
             Log.d(TAG, "consumeUpdateApiServices: Error: " + ex);
         }
     }
-
-
 
     //Consume resource with Retrofit 2 creando
     private void getUserForId(String id) {

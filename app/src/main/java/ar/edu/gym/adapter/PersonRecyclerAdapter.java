@@ -86,7 +86,6 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
 
             movimiento.setFechaEntrada(null);
             movimiento.setFechaSalida(null);
-            Log.d(TAG, "Movimiento :" + movimiento);
             nombreYApellido = (TextView) view.findViewById(R.id.nombreyApellido);
             horasYminutos = (TextView) view.findViewById(R.id.horaYminutos);
 
@@ -97,24 +96,32 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
                     movimiento.setPersona(listPersona.get(getAdapterPosition()));
 
                     ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
-                    Call<Boolean> startMovement;
+                    Call<Movimiento> startMovement;
 
                     startMovement = apiInterface.createMovement(movimiento);
 
                     try {
-                        startMovement.enqueue(new Callback<Boolean>() {
+                        startMovement.enqueue(new Callback<Movimiento>() {
 
                             @Override
-                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                                Log.d(TAG, "Call request :" + call.request() + "\n Response: " + response);
-                                Toast.makeText(context, "Ingreso de " +
-                                        listPersona.get(getAdapterPosition()).getId() +
-                                        " Status code: " +
-                                        response.code(), Toast.LENGTH_SHORT).show();
+                            public void onResponse(Call<Movimiento> call, Response<Movimiento> response) {
+                                Log.d(TAG, "Call request :" +
+                                        call.request() +
+                                        "\n Response: " +
+                                        response);
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(context, "Ingreso de " +
+                                                    listPersona.get(getAdapterPosition()).getId()
+                                            , Toast.LENGTH_SHORT).show();
+                                }
+                                if (response.code() == 404) {
+                                    Toast.makeText(context, "Debe salir primero",
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override
-                            public void onFailure(Call<Boolean> call, Throwable t) {
+                            public void onFailure(Call<Movimiento> call, Throwable t) {
                                 Log.d(TAG, "Error Retrofit: " + t);
                             }
                         });
@@ -133,22 +140,30 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
                         movimiento.setFechaEntrada(null);
                         movimiento.setFechaSalida(null);
                         ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
-                        Call<String> endMovement;
+                        Call<Movimiento> endMovement;
 
                         endMovement = apiInterface.updateMovement(listPersona.get(getAdapterPosition()).getId());
 
                         try {
-                            endMovement.enqueue(new Callback<String>() {
+                            endMovement.enqueue(new Callback<Movimiento>() {
 
                                 @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
+                                public void onResponse(Call<Movimiento> call, Response<Movimiento> response) {
                                     Log.d(TAG, "Call request :" + call.request() + "\n Response: " + response);
-                                    Toast.makeText(context, "Salida de " +
-                                            listPersona.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(context, "Salida de " +
+                                                listPersona.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    if (response.code() == 404) {
+                                        Toast.makeText(context,
+                                                "No hay movimientos creados para el usuario" +
+                                                        listPersona.get(getAdapterPosition()).getId(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                                 @Override
-                                public void onFailure(Call<String> call, Throwable t) {
+                                public void onFailure(Call<Movimiento> call, Throwable t) {
                                     Log.d(TAG, "Error Retrofit: " + t);
                                 }
                             });
