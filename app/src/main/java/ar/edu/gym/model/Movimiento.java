@@ -52,7 +52,7 @@ public class Movimiento {
 
     @Override
     public String toString() {
-        return "Movimiento{" +
+        return "{" +
                 "id=" + id +
                 ", fechaEntrada=" + fechaEntrada +
                 ", fechaSalida=" + fechaSalida +
