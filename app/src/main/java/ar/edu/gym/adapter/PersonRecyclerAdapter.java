@@ -11,8 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ar.edu.gym.R;
 import ar.edu.gym.api.ApiClient;
@@ -74,12 +82,11 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
         public ViewHolder(final View view) {
             super(view);
 
-            Calendar c = Calendar.getInstance();
-
-
             movimiento = new Movimiento();
-            movimiento.setFechaEntrada(c.getTime());
 
+            movimiento.setFechaEntrada(null);
+            movimiento.setFechaSalida(null);
+            Log.d(TAG, "Movimiento :" + movimiento);
             nombreYApellido = (TextView) view.findViewById(R.id.nombreyApellido);
             horasYminutos = (TextView) view.findViewById(R.id.horaYminutos);
 
@@ -123,15 +130,12 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
                 public void onClick(View v) {
                     {
                         movimiento.setPersona(listPersona.get(getAdapterPosition()));
-
-                        Calendar c = Calendar.getInstance();
-
-                        movimiento.setFechaSalida(c.getTime());
-
+                        movimiento.setFechaEntrada(null);
+                        movimiento.setFechaSalida(null);
                         ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
                         Call<String> endMovement;
 
-                        endMovement = apiInterface.updateMovement(movimiento);
+                        endMovement = apiInterface.updateMovement(listPersona.get(getAdapterPosition()).getId());
 
                         try {
                             endMovement.enqueue(new Callback<String>() {

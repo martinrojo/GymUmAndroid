@@ -44,8 +44,6 @@ public class HomeActivity extends AppCompatActivity {
         fabIngresarGym =  (FloatingActionButton) findViewById(R.id.btn_entrar_gym);
         fabSalirGym  = (FloatingActionButton) findViewById(R.id.btn_salir_gym);
         recyclerViewPerson = (RecyclerView) findViewById(R.id.recyclerViewItem);
-
-
     }
 
 
@@ -57,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initVariable();
-
 
         //boton flotante Agregar usuario
         fabAgregarUsuario.setOnClickListener(new View.OnClickListener() {
@@ -77,12 +74,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         consumeApiServices();
-
-
     }
-
-
-
 
     //Load Search Box
     @Override
@@ -145,7 +137,6 @@ public class HomeActivity extends AppCompatActivity {
 
         }
     }
-
 
     //Save resource in ListRecycler
     private void notifyChangeAdapter(final List<Persona> listUser){
