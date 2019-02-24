@@ -47,9 +47,9 @@ public interface ApiInterface {
 
     //actualizacion de usuario, mandar modelo con el id
     @Headers(key)
-    @PUT("gym/api/movimientos/")
+    @PUT("gym/api/movimientos/{id}")
     //revisar las url a las q le pegas la httprequest
-    Call<String> updateMovement(@Body Movimiento movimiento);
+    Call<String> updateMovement(@Path("id") String id);
 
 }
 
