@@ -107,10 +107,6 @@ public class HomeActivity extends AppCompatActivity {
         searchMenuItem.getIcon().setVisible(false, false);
         return true;
     }
-
-
-
-
     //Consume resource with Retrofit 2
     private void consumeApiServices() {
         ApiInterface apiInterface = ApiClient.getApliClient().create(ApiInterface.class);
@@ -163,12 +159,3 @@ public class HomeActivity extends AppCompatActivity {
             }
         });    }
 }
-
-
-
-// Comentario
-
-//https://square.github.io/retrofit/
-
-//https://www.youtube.com/watch?v=_EIYM-wwObI    searchview
-//https://www.youtube.com/watch?v=LutqUWiHoiI search y recyclerview   mirar esteeeeeeeeeeeeeeeeeeeeeeee

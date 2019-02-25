@@ -40,7 +40,7 @@
         app:backgroundTint="@color/addButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_add_person" />
+        app:srcCompat="@drawable/ic_check_out" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_salir_gym"
@@ -55,6 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_entrar_gym"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_out" />
+        app:srcCompat="@drawable/ic_check_out2" />
 
 </android.support.constraint.ConstraintLayout>
