@@ -60,8 +60,11 @@ public class CreateUserActivity extends AppCompatActivity {
         bundleDatosUser = intentCreatePerson.getExtras();
 
         if (bundleDatosUser != null) {
+            setTitle("Editar Persona");
             stringUserId = bundleDatosUser.getString("idUser");
             getUserForId(stringUserId);
+        } else {
+            setTitle("Crear Persona");
         }
 
         fabCargarusuario.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +80,11 @@ public class CreateUserActivity extends AppCompatActivity {
         if (!Objects.isNull(persona)) {
             if (stringUserId != null && !stringUserId.equals("")) {
                 //si el formulario tiene datos actualiza un usuario
+
                 consumeUpdateApiServices(persona);
             } else {
                 //si el formulario estaba vacio crea un usuario
+
                 persona = new Persona(null,
                         edNombre.getText().toString(),
                         edApellido.getText().toString(),
@@ -121,11 +126,11 @@ public class CreateUserActivity extends AppCompatActivity {
             createUser.enqueue(new Callback<Persona>() {
                 @Override
                 public void onResponse(Call<Persona> call, Response<Persona> response) {
-                    if (response.code() == 200) {
+                    if (response.isSuccessful()) {
                         Toast.makeText(CreateUserActivity.this,
                                 "Usuario creado correctamente...",
                                 Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        finish();
                     }
                     if (response.code() == 404) {
                         Toast.makeText(CreateUserActivity.this,
@@ -177,6 +182,7 @@ public class CreateUserActivity extends AppCompatActivity {
                         Toast.makeText(CreateUserActivity.this,
                                 "Usuario actualizado",
                                 Toast.LENGTH_SHORT).show();
+                        onBackPressed();
                     }
                 }
 

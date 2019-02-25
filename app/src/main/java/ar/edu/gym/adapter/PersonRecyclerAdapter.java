@@ -111,7 +111,7 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
                                         response);
                                 if (response.isSuccessful()) {
                                     Toast.makeText(context, "Ingreso de " +
-                                                    listPersona.get(getAdapterPosition()).getId()
+                                                    listPersona.get(getAdapterPosition()).getNombre() + " " + listPersona.get(getAdapterPosition()).getApellido()
                                             , Toast.LENGTH_SHORT).show();
                                 }
                                 if (response.code() == 404) {
@@ -152,7 +152,7 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
                                     Log.d(TAG, "Call request :" + call.request() + "\n Response: " + response);
                                     if (response.isSuccessful()) {
                                         Toast.makeText(context, "Salida de " +
-                                                listPersona.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                                                listPersona.get(getAdapterPosition()).getNombre() + " " + listPersona.get(getAdapterPosition()).getApellido(), Toast.LENGTH_SHORT).show();
                                     }
                                     if (response.code() == 404) {
                                         Toast.makeText(context,

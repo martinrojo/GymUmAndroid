@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ef7f3f</color>
+    <color name="colorPrimary">#64B5F6</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#a7cb68</color>
+    <color name="colorAccent">#FFC107</color>
 
-    <color name="removeButton">#a42d27</color>
-    <color name="addButton">#2774a4</color>
+    <color name="removeButton">#F80000</color>
+    <color name="addButton">#4CAF50</color>
 </resources>
